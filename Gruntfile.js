@@ -79,6 +79,7 @@ module.exports = function(grunt) {
           livereload: true
         },
         files: [
+          '*.html',
           'css/style.css',
           'js/*.js',
           'images/{,**/}*.{png,jpg,jpeg,gif,webp,svg}'
