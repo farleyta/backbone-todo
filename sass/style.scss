@@ -140,7 +140,7 @@ label[for='toggle-all'] {
   /* Mobile Safari */
   border: none;
   &:before {
-    content: 'Â»';
+    content: '»';
     font-size: 28px;
     color: #d9d9d9;
     padding: 0 25px 7px;
@@ -190,7 +190,7 @@ label[for='toggle-all'] {
       -o-appearance: none;
       appearance: none;
       &:after {
-        content: 'âœ”';
+        content: '✔';
         /* 40 + a couple of pixels visual adjustment */
         line-height: 43px;
         font-size: 20px;
@@ -238,7 +238,7 @@ label[for='toggle-all'] {
         transform: scale(1.3);
       }
       &:after {
-        content: 'âœ–';
+        content: '✖';
       }
     }
     &:hover .destroy {
@@ -412,7 +412,7 @@ hr {
   p {
     font-style: italic;
     &:before {
-      content: 'â€œ';
+      content: '“';
       font-size: 50px;
       opacity: .15;
       position: absolute;
@@ -420,7 +420,7 @@ hr {
       left: 3px;
     }
     &:after {
-      content: 'â€';
+      content: '”';
       font-size: 50px;
       opacity: .15;
       position: absolute;
