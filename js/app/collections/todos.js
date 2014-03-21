@@ -10,19 +10,13 @@ toDoApp.ToDoList = Backbone.Collection.extend({
     localStorage: new Backbone.LocalStorage('backbone-todo'),
 
     getCompleted: function(){
-        // filter through all items in the Collection, and...
-        return this.filter(function(toDoModel){
-            // return any model in which isComplete is true
-            return toDoModel.get('isComplete');
-        });
+        // get all completed ToDos
+        return this.where({ isComplete: true });
     },
 
     getRemaining: function(){
-        // filter through all items in the Collection, returning only incompleted
-        return this.filter(function(toDoModel){
-            // return any model in which isComplete is false
-            return ! toDoModel.get('isComplete');
-        });
+        // get all completed ToDos
+        return this.where({ isComplete: false });
     },
 
     // Function for assigning the ToDos a number in sequential order
