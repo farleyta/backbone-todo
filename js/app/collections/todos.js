@@ -1,7 +1,7 @@
 // Create a new wrapper object
 var toDoApp = toDoApp || {};
 
-var ToDoList = Backbone.Collection.extend({
+toDoApp.ToDoList = Backbone.Collection.extend({
     
     model: toDoApp.ToDo,
 
