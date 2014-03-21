@@ -29,7 +29,7 @@
 <!-- Underscore.js Templates -->
 <script type="text/template" id="item-template">
 	<div class="view">
-		<input class="toggle" type="checkbox" <%= completed ? 'checked' : '' %> >
+		<input class="toggle" type="checkbox" <%= isComplete ? 'checked' : '' %> >
 		<label><%= title %></label>
 		<button class="destroy"></button>
 	</div>
@@ -45,9 +45,9 @@
 			<a href="#/completed">Completed</a>
 		</li>
 	</ul>
-	<%= if ( completed ) { %>
-		<button id="clear-completed">Clear completed (<%= completed %>)</button>
-	<%= } %>
+	<% if ( getCompleted ) { %>
+		<button id="clear-completed">Clear completed (<%= getCompleted %>)</button>
+	<% } %>
 </script>
 
 <script src="js/vendor.min.js"></script>
