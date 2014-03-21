@@ -5,6 +5,8 @@ var ToDoList = Backbone.Collection.extend({
     
     model: toDoApp.ToDo,
 
+    comparator: 'orderNum',
+
     localStorage: new Backbone.LocalStorage('backbone-todo'),
 
     getCompleted: function(){
@@ -35,8 +37,6 @@ var ToDoList = Backbone.Collection.extend({
                 return toDoModel.get('orderNum');
             } ).get('orderNum') + 1;
         }
-    },
-
-    comparator: 'orderNum'
+    }
 
 });
