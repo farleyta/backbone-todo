@@ -56,7 +56,7 @@ module.exports = function(grunt) {
           cssDir: 'css',
           sassDir: 'sass',
           imagesDir: 'img',
-          httpImagesPath: '<%= compass.dist.options.imagesDir %>',
+          httpImagesPath: '../<%= compass.dist.options.imagesDir %>', // 
           javascriptsDir: 'js',
           fontsDir: 'css/fonts',
           assetCacheBuster: 'none',
