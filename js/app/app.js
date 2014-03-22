@@ -221,6 +221,9 @@ toDoApp.ToDoView = Backbone.View.extend({
 			this.model.save({
 				title: title
 			});
+		} else {
+			// if title is blank, set it back to the current title on the model
+			this.$input.val( this.model.get('title') );
 		}
 		// reset to default (unediting) view of list
 		this.$el.removeClass('editing');
@@ -232,9 +235,7 @@ toDoApp.ToDoView = Backbone.View.extend({
 
 	edit: function() {
 		this.$el.addClass('editing');
-		// make sure the input is populated with the current models title
-		// and then give it focus
-		this.$input.val(this.model.get('title')).focus();
+		this.$input.focus().select();
 	},
 
 	isHidden: function() {
