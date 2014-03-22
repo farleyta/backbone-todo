@@ -239,7 +239,21 @@ toDoApp.ToDoView = Backbone.View.extend({
 	},
 
 	toggleVisible: function() {
-		console.log('toggleVisible Event – check to see if we\'re filtering with the Router.');
+
+		var isComplete = this.$el.hasClass('completed');
+		
+		switch(toDoApp.ToDoFilter) {
+			case 'completed':  
+				// show only ToDos that have class .completed
+				this.$el.toggle( isComplete );
+				break;
+			case 'active':
+				this.$el.toggle( !isComplete );
+				break;
+			default:
+				this.$el.show();
+				break;
+		}
 	},
 
 	updateOnEnter: function( e ) {
@@ -249,7 +263,25 @@ toDoApp.ToDoView = Backbone.View.extend({
 	}
 
 });
+toDoApp.ToDoRouter = Backbone.Router.extend({
 
+	routes: {
+		'*filter': 'setFilter'
+	},
+
+	setFilter: function(filterParam) {
+		if ( filterParam ) {
+			filterParam = filterParam.trim();
+		}
+		toDoApp.ToDoFilter = filterParam || '';
+
+		toDoApp.todoList.trigger('filterVisible');
+	}
+
+});
+
+toDoApp.toDoRouter = new toDoApp.ToDoRouter();
+Backbone.history.start();
 $(function() {
 
 	// Kick things off...
