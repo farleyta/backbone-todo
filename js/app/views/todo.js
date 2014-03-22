@@ -1,5 +1,3 @@
-var toDoApp = toDoApp || {};
-
 toDoApp.ToDoView = Backbone.View.extend({
 
 	tagName: 'li',
@@ -18,7 +16,36 @@ toDoApp.ToDoView = Backbone.View.extend({
 
 	render: function() {
 		this.$el.html( this.template( this.model.toJSON() ) );
+		this.$input = this.$('.edit');
 		return this;
+	},
+
+	close: function() {
+
+		// The new value of the title
+		var title = this.$input.val().trim();
+		
+		// Update the title of the model
+		if ( title ) {
+			this.model.save({
+				title: title
+			});
+		}
+		// reset to default (unediting) view of list
+		this.$el.removeClass('editing');
+	},
+
+	edit: function() {
+		this.$el.addClass('editing');
+		// make sure the input is populated with the current models title
+		// and then give it focus
+		this.$input.val(this.model.get('title')).focus();
+	},
+
+	updateOnEnter: function( e ) {
+		if ( e.which === 13 ) {
+            this.close();
+        }
 	}
 
 });

@@ -1,7 +1,5 @@
-// Create a new wrapper object
+// Set the namespace
 var toDoApp = toDoApp || {};
-
-// 
 toDoApp.ToDo = Backbone.Model.extend({
 	defaults: {
 		title: '',
@@ -12,9 +10,6 @@ toDoApp.ToDo = Backbone.Model.extend({
 		this.save({ isComplete: !this.get('isComplete') });
 	}
 });
-// Create a new wrapper object
-var toDoApp = toDoApp || {};
-
 toDoApp.ToDoList = Backbone.Collection.extend({
     
     model: toDoApp.ToDo,
@@ -48,8 +43,8 @@ toDoApp.ToDoList = Backbone.Collection.extend({
     }
 
 });
-var toDoApp = toDoApp || {};
 
+toDoApp.todoList = new toDoApp.ToDoList();
 toDoApp.AppView = Backbone.View.extend({
 
     // This element already exists as a skeleton in index.html
@@ -182,8 +177,6 @@ toDoApp.AppView = Backbone.View.extend({
     }
 
 });
-var toDoApp = toDoApp || {};
-
 toDoApp.ToDoView = Backbone.View.extend({
 
 	tagName: 'li',
@@ -202,17 +195,43 @@ toDoApp.ToDoView = Backbone.View.extend({
 
 	render: function() {
 		this.$el.html( this.template( this.model.toJSON() ) );
+		this.$input = this.$('.edit');
 		return this;
+	},
+
+	close: function() {
+
+		// The new value of the title
+		var title = this.$input.val().trim();
+		
+		// Update the title of the model
+		if ( title ) {
+			this.model.save({
+				title: title
+			});
+		}
+		// reset to default (unediting) view of list
+		this.$el.removeClass('editing');
+	},
+
+	edit: function() {
+		this.$el.addClass('editing');
+		// make sure the input is populated with the current models title
+		// and then give it focus
+		this.$input.val(this.model.get('title')).focus();
+	},
+
+	updateOnEnter: function( e ) {
+		if ( e.which === 13 ) {
+            this.close();
+        }
 	}
 
 });
 
-toDoApp.todoList = new toDoApp.ToDoList();
+$(function() {
 
-toDoApp.todoView = new toDoApp.AppView();
+	// Kick things off...
+    new toDoApp.AppView();
 
-toDoApp.todoList.reset([
-    { title: "Test2", isComplete: true, orderNum: 1 }, 
-    { title: "Test3", isComplete: true, orderNum: 2 }, 
-    { title: "Test4", isComplete: true, orderNum: 3 }
-]);
+});

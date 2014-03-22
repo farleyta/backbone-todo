@@ -1,7 +1,3 @@
-// Create a new wrapper object
-var toDoApp = toDoApp || {};
-
-// 
 toDoApp.ToDo = Backbone.Model.extend({
 	defaults: {
 		title: '',

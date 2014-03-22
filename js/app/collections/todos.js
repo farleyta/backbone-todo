@@ -1,6 +1,3 @@
-// Create a new wrapper object
-var toDoApp = toDoApp || {};
-
 toDoApp.ToDoList = Backbone.Collection.extend({
     
     model: toDoApp.ToDo,
@@ -34,3 +31,5 @@ toDoApp.ToDoList = Backbone.Collection.extend({
     }
 
 });
+
+toDoApp.todoList = new toDoApp.ToDoList();

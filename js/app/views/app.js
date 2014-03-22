@@ -1,5 +1,3 @@
-var toDoApp = toDoApp || {};
-
 toDoApp.AppView = Backbone.View.extend({
 
     // This element already exists as a skeleton in index.html

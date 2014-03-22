@@ -20,7 +20,7 @@ module.exports = function(grunt) {
 
     concat: {
       app: {
-        src: ['js/app/models/*.js', 'js/app/collections/*.js', 'js/app/views/*.js', 'js/app/routers/*.js', 'js/app/app-init.js'],
+        src: ['js/app/pre-app.js', 'js/app/models/*.js', 'js/app/collections/*.js', 'js/app/views/*.js', 'js/app/routers/*.js', 'js/app/post-app.js'],
         dest: 'js/app/app.js'
       },
       vendor: {
