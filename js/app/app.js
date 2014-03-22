@@ -186,7 +186,8 @@ toDoApp.ToDoView = Backbone.View.extend({
 	events: {
 		'dblclick label': 'edit', 
 		'keypress .edit': 'updateOnEnter',
-		'blur .edit': 'close'
+		'blur .edit': 'close',
+		'click .toggle': 'toggleCompleted'
 	},
 
 	initialize: function() {
@@ -194,8 +195,13 @@ toDoApp.ToDoView = Backbone.View.extend({
 	},
 
 	render: function() {
+		// Render the individual todo item
 		this.$el.html( this.template( this.model.toJSON() ) );
+		// set a shortcut to the jQuery DOM object for the editing input
 		this.$input = this.$('.edit');
+		// toggle the completed class on the <li> depending on whether the model is complete
+		this.$el.toggleClass( 'completed', this.model.get('isComplete') );
+
 		return this;
 	},
 
@@ -219,6 +225,10 @@ toDoApp.ToDoView = Backbone.View.extend({
 		// make sure the input is populated with the current models title
 		// and then give it focus
 		this.$input.val(this.model.get('title')).focus();
+	},
+
+	toggleCompleted: function() {
+		this.model.toggle();
 	},
 
 	updateOnEnter: function( e ) {
