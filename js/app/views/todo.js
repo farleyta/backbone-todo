@@ -13,6 +13,7 @@ toDoApp.ToDoView = Backbone.View.extend({
 
 	initialize: function() {
 		this.listenTo(this.model, 'change', this.render);
+		this.listenTo(this.model, 'visible', this.toggleVisible);
 	},
 
 	render: function() {
@@ -50,6 +51,10 @@ toDoApp.ToDoView = Backbone.View.extend({
 
 	toggleCompleted: function() {
 		this.model.toggle();
+	},
+
+	toggleVisible: function() {
+		console.log('toggleVisible Event – check to see if we\'re filtering with the Router.');
 	},
 
 	updateOnEnter: function( e ) {
