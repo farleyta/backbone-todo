@@ -74,6 +74,9 @@ toDoApp.AppView = Backbone.View.extend({
 
         this.listenTo(this.todoList, 'add', this.addToDo);
         this.listenTo(this.todoList, 'reset', this.addAllToDos);
+
+        this.listenTo(this.todoList, 'change:isComplete', this.triggerVisible);
+        this.listenTo(this.todoList, 'filterVisible', this.triggerAllVisible);
     },
 
     // Delegate certain events for creating new items and clearing old ones
@@ -83,12 +86,12 @@ toDoApp.AppView = Backbone.View.extend({
         'click #toggle-all': 'toggleAllCompleteStatus'
     },
 
-    addToDo: function( todo ){
+    addToDo: function( toDoModel ){
         // Create a new single ToDo view, referencing the ToDo Model that is being added
-        // var toDoView = new toDoApp.ToDoView({ model: todo });
+        // var toDoView = new toDoApp.ToDoView({ model: toDoModel });
         // Append the rendered element to the #todo-list <ul>
         // $('#todo-list').append( toDoView.render().el );
-        console.log( todo.get('title'));
+        console.log( toDoModel.get('title'));
     },
 
     addAllToDos: function( allToDos ) {
@@ -99,9 +102,8 @@ toDoApp.AppView = Backbone.View.extend({
     },
 
     clearCompleted: function() {
-        _.invoke( this.todoList.getCompleted(), function() {
-            this.destroy();
-        });
+        _.invoke( this.todoList.getCompleted(), 'destroy');
+        return false;
     },
 
     createOnEnter: function( e ) {
@@ -134,6 +136,14 @@ toDoApp.AppView = Backbone.View.extend({
                 'isComplete': isComplete
             });
         });
+    },
+
+    triggerVisible: function( toDoModel ) {
+        toDoModel.trigger('visible');
+    },
+
+    triggerAllVisible: function() {
+        this.todoList.each( this.triggerVisible, this );
     }
 
 });
