@@ -234,26 +234,27 @@ toDoApp.ToDoView = Backbone.View.extend({
 		this.$input.val(this.model.get('title')).focus();
 	},
 
+	isHidden: function() {
+		var isComplete = this.$el.hasClass('completed');
+		
+		switch(toDoApp.ToDoFilter) {
+			case 'active':
+				return isComplete; // hide those that are complete
+			case 'completed':  
+				// show only ToDos that have class .completed
+				return !isComplete; // only hide those that aren't complete
+			default:
+				return false;
+		}
+	},
+
 	toggleCompleted: function() {
 		this.model.toggle();
 	},
 
 	toggleVisible: function() {
-
-		var isComplete = this.$el.hasClass('completed');
-		
-		switch(toDoApp.ToDoFilter) {
-			case 'completed':  
-				// show only ToDos that have class .completed
-				this.$el.toggle( isComplete );
-				break;
-			case 'active':
-				this.$el.toggle( !isComplete );
-				break;
-			default:
-				this.$el.show();
-				break;
-		}
+		// Toggle the "hidden" class on the <li>, based on result of isHidden()
+		this.$el.toggleClass('hidden', this.isHidden());
 	},
 
 	updateOnEnter: function( e ) {
