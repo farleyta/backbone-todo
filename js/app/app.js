@@ -92,10 +92,9 @@ toDoApp.AppView = Backbone.View.extend({
 
     addToDo: function( toDoModel ){
         // Create a new single ToDo view, referencing the ToDo Model that is being added
-        // var toDoView = new toDoApp.ToDoView({ model: toDoModel });
+        var toDoView = new toDoApp.ToDoView({ model: toDoModel });
         // Append the rendered element to the #todo-list <ul>
-        // $('#todo-list').append( toDoView.render().el );
-        // console.log( toDoModel.get('title'));
+        $('#todo-list').append( toDoView.render().el );
     },
 
     addAllToDos: function( allToDos ) {
@@ -183,7 +182,30 @@ toDoApp.AppView = Backbone.View.extend({
     }
 
 });
+var toDoApp = toDoApp || {};
 
+toDoApp.ToDoView = Backbone.View.extend({
+
+	tagName: 'li',
+
+	template: _.template( $('#item-template').html() ),
+
+	events: {
+		'dblclick label': 'edit', 
+		'keypress .edit': 'updateOnEnter',
+		'blur .edit': 'close'
+	},
+
+	initialize: function() {
+		this.listenTo(this.model, 'change', this.render);
+	},
+
+	render: function() {
+		this.$el.html( this.template( this.model.toJSON() ) );
+		return this;
+	}
+
+});
 
 toDoApp.todoList = new toDoApp.ToDoList();
 

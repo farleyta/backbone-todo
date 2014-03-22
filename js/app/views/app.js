@@ -42,10 +42,9 @@ toDoApp.AppView = Backbone.View.extend({
 
     addToDo: function( toDoModel ){
         // Create a new single ToDo view, referencing the ToDo Model that is being added
-        // var toDoView = new toDoApp.ToDoView({ model: toDoModel });
+        var toDoView = new toDoApp.ToDoView({ model: toDoModel });
         // Append the rendered element to the #todo-list <ul>
-        // $('#todo-list').append( toDoView.render().el );
-        // console.log( toDoModel.get('title'));
+        $('#todo-list').append( toDoView.render().el );
     },
 
     addAllToDos: function( allToDos ) {
