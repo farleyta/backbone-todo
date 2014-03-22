@@ -16,7 +16,8 @@ toDoApp.AppView = Backbone.View.extend({
         this.todoList = toDoApp.todoList;
 
         // store references to DOM element objects
-        this.$allCheckbox = this.$('#toggle-all');
+        this.$allCheckbox = this.$('#toggle-all')[0];
+        this.$listOfTodos = this.$('#todo-list');
         this.$input = this.$('#new-todo');
         this.$footer = this.$('#footer');
         this.$main = this.$('#main');
@@ -28,7 +29,8 @@ toDoApp.AppView = Backbone.View.extend({
     // Delegate certain events for creating new items and clearing old ones
     events: {
         'keypress #new-todo': 'createOnEnter',
-        'click #clear-completed': 'clearCompleted'
+        'click #clear-completed': 'clearCompleted',
+        'click #toggle-all': 'toggleAllCompleteStatus'
     },
 
     addToDo: function( todo ){
@@ -41,21 +43,14 @@ toDoApp.AppView = Backbone.View.extend({
 
     addAllToDos: function( allToDos ) {
         // Reset the HTML for the ToDo List
-        this.$('#todo-list').html('');
+        this.$listOfTodos.html('');
         // iterate through all ToDo items run the addToDo function from above
         allToDos.each( this.addToDo, this );
     },
 
     clearCompleted: function() {
         _.invoke( this.todoList.getCompleted(), function() {
-            this.destroy({
-                success: function(model){
-                    console.log('Model: ' + model.get('orderNum') + ' successfully destroyed.');
-                },
-                error: function(model, response){
-                    console.log('Error: ' + response + '\nModel: ' + model.get('orderNum') + ' successfully destroyed.');
-                }
-            });
+            this.destroy();
         });
     },
 
@@ -77,6 +72,18 @@ toDoApp.AppView = Backbone.View.extend({
             orderNum: this.todoList.nextOrderNum(),
             isComplete: false
         };
+    },
+
+    toggleAllCompleteStatus: function() {
+
+        // find current value of the toggle-all checkbox
+        var isComplete = this.$allCheckbox.checked;
+
+        this.todoList.each( function(toDoModel){
+            toDoModel.save({
+                'isComplete': isComplete
+            });
+        });
     }
 
 });
