@@ -8,12 +8,14 @@ toDoApp.ToDoView = Backbone.View.extend({
 		'dblclick label': 'edit', 
 		'keypress .edit': 'updateOnEnter',
 		'blur .edit': 'close',
-		'click .toggle': 'toggleCompleted'
+		'click .toggle': 'toggleCompleted',
+		'click .destroy': 'destroyToDo'
 	},
 
 	initialize: function() {
 		this.listenTo(this.model, 'change', this.render);
 		this.listenTo(this.model, 'visible', this.toggleVisible);
+		this.listenTo(this.model, 'destroy', this.remove);
 	},
 
 	render: function() {
@@ -40,6 +42,10 @@ toDoApp.ToDoView = Backbone.View.extend({
 		}
 		// reset to default (unediting) view of list
 		this.$el.removeClass('editing');
+	},
+
+	destroyToDo: function() {
+		this.model.destroy();
 	},
 
 	edit: function() {
