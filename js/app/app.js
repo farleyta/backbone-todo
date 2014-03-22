@@ -142,6 +142,9 @@ toDoApp.AppView = Backbone.View.extend({
                 numRemaining: numRemaining
             }));
 
+            // Choose the proper filter option to have the .selected class
+            this.$('#filters li a').removeClass('selected').filter('[href="#/' + toDoApp.ToDoFilter + '"]').addClass('selected');
+
         } else {
             // no items, hide the list and footer
             this.$main.hide();
