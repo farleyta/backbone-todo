@@ -37,7 +37,7 @@
 </script>
 
 <script type="text/template" id="stats-template">
-	<span id="todo-count"><strong><%= remaining %></strong> <%= remaining === 1 ? 'item' : 'items' %></span>
+	<span id="todo-count"><strong><%= numRemaining %></strong> <%= numRemaining === 1 ? 'item' : 'items' %></span>
 	<ul id="filters">
 		<li>
 			<a class="selected" href="#/">All</a>
@@ -45,8 +45,8 @@
 			<a href="#/completed">Completed</a>
 		</li>
 	</ul>
-	<% if ( getCompleted ) { %>
-		<button id="clear-completed">Clear completed (<%= getCompleted %>)</button>
+	<% if ( numCompleted ) { %>
+		<button id="clear-completed">Clear completed (<%= numCompleted %>)</button>
 	<% } %>
 </script>
 

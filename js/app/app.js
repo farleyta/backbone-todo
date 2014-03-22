@@ -72,11 +72,15 @@ toDoApp.AppView = Backbone.View.extend({
         this.$footer = this.$('#footer');
         this.$main = this.$('#main');
 
+        // Add our event listeners
         this.listenTo(this.todoList, 'add', this.addToDo);
         this.listenTo(this.todoList, 'reset', this.addAllToDos);
-
         this.listenTo(this.todoList, 'change:isComplete', this.triggerVisible);
         this.listenTo(this.todoList, 'filterVisible', this.triggerAllVisible);
+        this.listenTo(this.todoList, 'all', this.render);
+
+        // Grab the locally stored collection of ToDos
+        this.todoList.fetch();
     },
 
     // Delegate certain events for creating new items and clearing old ones
@@ -91,7 +95,7 @@ toDoApp.AppView = Backbone.View.extend({
         // var toDoView = new toDoApp.ToDoView({ model: toDoModel });
         // Append the rendered element to the #todo-list <ul>
         // $('#todo-list').append( toDoView.render().el );
-        console.log( toDoModel.get('title'));
+        // console.log( toDoModel.get('title'));
     },
 
     addAllToDos: function( allToDos ) {
@@ -126,6 +130,38 @@ toDoApp.AppView = Backbone.View.extend({
         };
     },
 
+    render: function() {
+
+        //Get the values of completed / remaining ToDos
+        var numCompleted = this.todoList.getCompleted().length,
+            numRemaining = this.todoList.getRemaining().length;
+
+        // As long as there are ToDos, render the HTML for the list
+        if ( this.todoList.length ) {
+            // show the list and footer
+            this.$main.show();
+            this.$footer.show();
+
+            // populate the footer markup with the num of completed / remaining
+            this.$footer.html( this.statsTemplate({
+                numCompleted: numCompleted,
+                numRemaining: numRemaining
+            }));
+
+        } else {
+            // no items, hide the list and footer
+            this.$main.hide();
+            this.$footer.hide();
+        }
+
+        // apply the .selected class to the proper filter link
+            
+        // if all items in the list are completed, check the all Completed box
+        if ( ! numRemaining ) {
+            this.$allCheckbox.checked = true;
+        }
+    },
+
     toggleAllCompleteStatus: function() {
 
         // find current value of the toggle-all checkbox
@@ -155,6 +191,6 @@ toDoApp.todoView = new toDoApp.AppView();
 
 toDoApp.todoList.reset([
     { title: "Test2", isComplete: true, orderNum: 1 }, 
-    { title: "Test3", isComplete: false, orderNum: 2 }, 
-    { title: "Test4", isComplete: false, orderNum: 3 }
+    { title: "Test3", isComplete: true, orderNum: 2 }, 
+    { title: "Test4", isComplete: true, orderNum: 3 }
 ]);
